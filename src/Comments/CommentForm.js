@@ -1,10 +1,27 @@
-import React from 'react'
+import React, { useState } from 'react'
 
-const CommentForm = () => {
+const CommentForm = ({ handleSubmit, submitLabel }) => {
+	const [text, setText] = useState('')
+
+	// disabled button when there not text
+	const isTextareaDisabled = text.length === 0;
+
+	const onSubmit = (e) => {
+		e.preventDefault()
+		handleSubmit(text)
+		setText('')
+	}
 	return (
-		<div>
-			CommentForm
-		</div>
+		<form onSubmit={onSubmit}>
+      	<textarea 
+      		className='comment-form-textarea'
+      		value={text}
+      		onChange={(e) => setText(e.target.value)}
+      	/>
+      	<button className='comment-form-button'disabled={isTextareaDisabled}>
+      		{submitLabel}
+      	</button>
+		</form>
 	)
 }
 
