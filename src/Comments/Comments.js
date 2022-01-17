@@ -4,21 +4,30 @@ import Comment from './Comment.js'
 
 const Comments = ({ currentUserId }) => {
 	const [backendComments, setBackendComments] = useState([])
-	const rootComment = backendComments.filter((backendComments) => backendComments.parentId === null)
-	console.log('backendComments', backendComments)
+	const rootComments = backendComments.filter((backendComment) => backendComment.parentId === null)
 
-useEffect(() => {
-	getCommentsApi().then((data) => {
-		setBackendComments(data);
-	})
-}, [])
+//comments add the top
+	const getReplies = (commentId) => { 
+		return backendComments
+		.filter((backendComment) => backendComment.parentId === commentId)
+		.sort((a, b) => new Date(a.createAt).getTime() - new Date(b.createAt).getTime())
+	}
+
+	useEffect(() => {
+		getCommentsApi().then((data) => {
+			setBackendComments(data);
+		})
+	}, [])
 
 	return (
 		<div className='comments'>
 			<h3 className='comments-title'>Comments</h3>
 			<div className='comments-container'>
-				{rootComment.map((rootComment) => (
-					<Comment key={rootComment.id} comment={rootComment} />
+				{rootComments.map((rootComment) => (
+					<Comment
+					 key={rootComment.id}
+					 comment={rootComment}
+					 replies={getReplies(rootComment.id)} />
 				))}
 			</div>
 		</div>
