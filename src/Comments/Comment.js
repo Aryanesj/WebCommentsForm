@@ -6,6 +6,7 @@ const Comment = ({ comment,
 	  replies,
 	  currentUserId,
 	  deleteComment,
+	  updateComment,
 	  activeComment,
 	  setActiveComment,
 	  parentId = null,
@@ -35,7 +36,16 @@ const Comment = ({ comment,
 					<div className='comment-author'>{comment.username}</div>
 					<div>{createdAt}</div>
 				</div>
-				<div className='comment-text'>{comment.body}</div>
+				{!isEditing && <div className='comment-text'>{comment.body}</div>}
+				{isEditing && (
+					<CommentForm 
+						submitLabel='Update' 
+						hasCancelButton 
+						ibitialText={comment.body} 
+						handleSubmit={(text) => updateComment(text, comment.id)}
+					   handleCancel={() => setActiveComment(null)}
+					/>
+				)}
 				<div className='comment-actions'>
 					{canReply && <div className='comment-action'
 											onClick={() => 
@@ -62,6 +72,7 @@ const Comment = ({ comment,
 								replies={[]}
 								currentUserId={currentUserId}
 								deleteComment={deleteComment}
+								updateComment={updateComment}
 								parentId={comment.id}
 								activeComment={activeComment}
 								setActiveComment={setActiveComment}

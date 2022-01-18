@@ -1,5 +1,6 @@
 .comments {
   margin-top: 20px;
+  margin-left: 15px;
 }
 
 .comments-title {
@@ -16,28 +17,36 @@
 }
 
 .comment-form-textarea {
-  width: 100%;
+  width: 400px;
   height: 80px;
   margin-bottom: 8px;
   margin-top: 8px;
+  margin-right: 20px;
   border: 1px solid rgb(107, 114, 12);
+  resize: none;
 }
+
+@media screen and (max-width: 450px) {
+    .comment-form-textarea {
+      width: 300px;
+    }
+  }
 
 .comment-form-button {
   font-size: 16px;
   padding: 8px 16px;
-  background: rgb(59, 130, 246);
+  background: #4d4d4d;
   border-radius: 8px;
   color: white;
 }
 
 .comment-form-button:hover:enabled {
   cursor: pointer;
-  background: rgb(37, 99, 235);
+  background: teal;
 }
 
 .comment-form-button:disabled {
-  opacity: 0.7;
+  opacity: 0.5;
   cursor: default;
 }
 
@@ -62,14 +71,22 @@
   width: 100%;
 }
 
+@media screen and (max-width: 450px) {
+    .comment-right-part {
+      margin-right: 7px;
+    }
+  }
+
 .comment-content {
   display: flex;
+  color: gray;
 }
 
 .comment-author {
   margin-right: 8px;
   font-size: 20px;
   color: rgb(59, 130, 246);
+  color: teal;
 }
 
 .comment-text {
