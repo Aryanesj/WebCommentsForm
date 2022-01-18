@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import { getComments as getCommentsApi, createComment as createCommentApi } from '../api'
+import { getComments as getCommentsApi,
+		 createComment as createCommentApi,
+		 deleteComment as deleteCommentApi } from '../api'
 import Comment from './Comment.js'
 import CommentForm from './CommentForm.js'
 
@@ -12,6 +14,16 @@ const Comments = ({ currentUserId }) => {
 		return backendComments
 		.filter((backendComment) => backendComment.parentId === commentId)
 		.sort((a, b) => new Date(a.createAt).getTime() - new Date(b.createAt).getTime())
+	}
+
+	const deleteComment = (commentId) => {
+		if (window.confirm('Are you sure that you want to remove comment?')) {
+			deleteCommentApi(commentId).then(() => {
+				const updatedBackendComments = backendComments
+				.filter(backendComment => backendComment.id !== commentId);
+				setBackendComments(updatedBackendComments)
+			})
+		}
 	}
 
 	const addComment = (text, parentId) => {
@@ -37,7 +49,10 @@ const Comments = ({ currentUserId }) => {
 					<Comment
 					 key={rootComment.id}
 					 comment={rootComment}
-					 replies={getReplies(rootComment.id)} />
+					 replies={getReplies(rootComment.id)}
+					 currentUserId={currentUserId}
+					 deleteComment={deleteComment}
+					 />
 				))}
 			</div>
 		</div>
